@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+.venv/
+venv/
+
+# Environment variables — NEVER commit these
+.env
+.env.local
+.env.*.local
+
+# ChromaDB vector store
+.chroma/
+data/chroma_db/
+
+# Cached data files (pre-generated, too large for git)
+data/*.json
+data/*.pkl
+backend/data/*.json
+backend/data/*.pkl
+
+# Node
+node_modules/
+.next/
+.turbo/
+out/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Poetry
+.poetry/
