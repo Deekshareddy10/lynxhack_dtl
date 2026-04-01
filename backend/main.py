@@ -15,8 +15,6 @@ app = FastAPI(
     version="0.1.0",
 )
 
-# Allow the Next.js frontend (localhost:3000) to call this backend during development.
-# In production this should be locked to the actual frontend domain.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],

@@ -1,4 +1,3 @@
-"""GET /health — liveness probe for the backend."""
 from fastapi import APIRouter
 
 router = APIRouter()
