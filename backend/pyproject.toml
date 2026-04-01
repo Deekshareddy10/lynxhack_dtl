@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "urban-backend"
+version = "0.1.0"
+description = "URBAN policy simulation backend — FastAPI + LangGraph + ChromaDB"
+authors = ["Deeksha Reddy Patlolla"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.0"
+uvicorn = {extras = ["standard"], version = "^0.32.0"}
+python-dotenv = "^1.0.0"
+langchain = "^0.3.0"
+langgraph = "^0.2.0"
+langchain-anthropic = "^0.3.0"
+chromadb = "^0.5.0"
+sentence-transformers = "^3.3.0"
+httpx = "^0.28.0"
+pandas = "^2.2.0"
+requests = "^2.32.0"
+joblib = "^1.4.0"
+python-multipart = "^0.0.20"
+tavily-python = "^0.5.0"
+pydantic = "^2.10.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+pytest-asyncio = "^0.24.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
