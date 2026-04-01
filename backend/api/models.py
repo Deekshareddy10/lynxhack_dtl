@@ -12,8 +12,8 @@ class AgentVerdict(BaseModel):
     agent_name: str
     verdict: str  # "HIGH RISK" | "MODERATE RISK" | "LOW RISK" | "BENEFICIAL"
     confidence: float = Field(..., ge=0.0, le=1.0)
-    key_risks: list[str] = Field(..., min_length=3, max_length=3)
-    key_benefits: list[str] = Field(..., min_length=3, max_length=3)
+    key_risks: list[str]
+    key_benefits: list[str]
     projection_1yr: str
     projection_5yr: str
     projection_10yr: str
