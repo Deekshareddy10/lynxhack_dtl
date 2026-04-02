@@ -1,4 +1,4 @@
-# URBAN — Government Policy Simulation Platform
+#  Government Policy Simulation Platform
 
 > Stress-test policy before it hits the real world.
 
