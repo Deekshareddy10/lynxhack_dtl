@@ -23,18 +23,18 @@ function scoreToColor(score: number): string {
 export default function SimulationMap({ tractData }: SimulationMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
-  const geojsonRef = useRef<any>(null);   // stores the raw GeoJSON we fetched
-  const popup = useRef<mapboxgl.Popup | null>(null);
+  const geojsonRef = useRef<any>(null);
   const mapReady = useRef(false);
+  // Always holds the latest tractData — read by the map load handler
+  const latestScores = useRef<TractImpact[] | null>(null);
+  const popup = useRef<mapboxgl.Popup | null>(null);
 
-  // Called once the map style + source are loaded — applies current tractData
   function applyScores(data: TractImpact[]) {
     if (!map.current || !geojsonRef.current) return;
     const source = map.current.getSource('nyc-tracts') as mapboxgl.GeoJSONSource;
     if (!source) return;
 
     const scoreMap = new Map(data.map(t => [t.tract_id, t.impact_score]));
-
     const updated = {
       ...geojsonRef.current,
       features: geojsonRef.current.features.map((f: any) => ({
@@ -45,8 +45,6 @@ export default function SimulationMap({ tractData }: SimulationMapProps) {
         },
       })),
     };
-
-    // Keep a reference to the updated data so future calls have current scores
     geojsonRef.current = updated;
     source.setData(updated);
   }
@@ -61,7 +59,7 @@ export default function SimulationMap({ tractData }: SimulationMapProps) {
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/dark-v11',
       center: [-73.9712, 40.7831],
-      zoom: 11,
+      zoom: 11.5,
       pitch: 45,
       bearing: -17.6,
       antialias: true,
@@ -76,14 +74,9 @@ export default function SimulationMap({ tractData }: SimulationMapProps) {
         .then(r => r.json())
         .then((geojson: any) => {
           if (!map.current) return;
-
-          // Store GeoJSON so applyScores can reference it
           geojsonRef.current = geojson;
 
-          map.current.addSource('nyc-tracts', {
-            type: 'geojson',
-            data: geojson,
-          });
+          map.current.addSource('nyc-tracts', { type: 'geojson', data: geojson });
 
           map.current.addLayer({
             id: 'impact-zones',
@@ -102,8 +95,7 @@ export default function SimulationMap({ tractData }: SimulationMapProps) {
               'fill-extrusion-height': [
                 'interpolate', ['linear'],
                 ['coalesce', ['get', 'impact_score'], 0],
-                0, 20,
-                100, 800,
+                0, 20, 100, 800,
               ],
               'fill-extrusion-base': 0,
               'fill-extrusion-opacity': 0.85,
@@ -123,12 +115,9 @@ export default function SimulationMap({ tractData }: SimulationMapProps) {
 
           mapReady.current = true;
 
-          // If tractData arrived before the map was ready, apply it now
-          // We access it via a DOM dataset trick to avoid stale closure
-          const pending = mapContainer.current?.dataset.pendingScores;
-          if (pending) {
-            applyScores(JSON.parse(pending));
-            delete mapContainer.current!.dataset.pendingScores;
+          // Apply any scores that arrived before the map was ready
+          if (latestScores.current) {
+            applyScores(latestScores.current);
           }
 
           // Hover popup
@@ -163,18 +152,15 @@ export default function SimulationMap({ tractData }: SimulationMapProps) {
       map.current?.remove();
       map.current = null;
       mapReady.current = false;
+      geojsonRef.current = null;
     };
   }, []);
 
-  // Apply new scores whenever tractData changes
+  // Whenever tractData changes, store it and apply if map is ready
   useEffect(() => {
-    if (!tractData) return;
-
-    if (mapReady.current) {
+    latestScores.current = tractData;
+    if (tractData && mapReady.current) {
       applyScores(tractData);
-    } else if (mapContainer.current) {
-      // Map not ready yet — stash data to apply once GeoJSON loads
-      mapContainer.current.dataset.pendingScores = JSON.stringify(tractData);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tractData]);
@@ -183,7 +169,6 @@ export default function SimulationMap({ tractData }: SimulationMapProps) {
     <div className="relative w-full h-full">
       <div ref={mapContainer} className="w-full h-full rounded-lg" />
 
-      {/* Legend */}
       <div className="absolute bottom-8 left-4 bg-slate-900/90 border border-slate-700 rounded-lg p-3 text-xs text-slate-300">
         <div className="font-semibold mb-2 text-slate-100">Impact Level</div>
         <div className="flex items-center gap-2 mb-1">
