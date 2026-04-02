@@ -10,10 +10,14 @@ from pathlib import Path
 # Allow running this file directly from the backend/ directory
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import asyncio
+import json
 from data.census import get_nyc_census_data
 from data.fred import get_economic_context
 from data.search import search_policy_context
 from rag.pipeline import ingest_policy_data, get_collection_count
+
+DEMO_RESULT_PATH = Path(__file__).parent.parent.parent / "data" / "demo_result.json"
 
 
 def build_demo_cache() -> int:
@@ -49,5 +53,28 @@ def build_demo_cache() -> int:
     return total_chunks
 
 
+async def generate_demo_result():
+    """Run the full NYC rent control simulation and save result to disk."""
+    from agents.simulation import run_simulation
+
+    print("\nRunning NYC rent control demo simulation...")
+    result = await run_simulation(
+        "Cap annual rent increases at 3% per year for all residential properties. "
+        "Exemptions for new construction under 10 years old.",
+        "New York City"
+    )
+
+    DEMO_RESULT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with open(DEMO_RESULT_PATH, "w") as f:
+        json.dump(result.model_dump(), f)
+
+    print(f"\nDemo result saved to {DEMO_RESULT_PATH}")
+    print(f"  Overall risk score: {result.overall_risk_score}")
+    print(f"  Verdict: {result.overall_verdict}")
+    print(f"  Census tracts in map: {len(result.map_data)}")
+    return result
+
+
 if __name__ == "__main__":
     build_demo_cache()
+    asyncio.run(generate_demo_result())
