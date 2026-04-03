@@ -19,7 +19,7 @@ export default function HomePage() {
     setLoading(true);
     try {
       const result = await simulatePolicy(policyText, city);
-      localStorage.setItem('urban_result', JSON.stringify(result));
+      localStorage.setItem('civiclens_result', JSON.stringify(result));
       router.push(`/simulate/${result.simulation_id}`);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Simulation failed');
@@ -32,7 +32,7 @@ export default function HomePage() {
     setLoading(true);
     try {
       const result = await getDemo();
-      localStorage.setItem('urban_result', JSON.stringify(result));
+      localStorage.setItem('civiclens_result', JSON.stringify(result));
       router.push(`/simulate/${result.simulation_id}`);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Demo failed');
@@ -46,7 +46,7 @@ export default function HomePage() {
     <main className="min-h-screen bg-slate-950 flex flex-col items-center justify-center px-4">
       {/* Logo */}
       <div className="mb-2 text-6xl font-black tracking-tighter text-amber-400">
-        URBAN
+        CivicLens
       </div>
       <p className="text-slate-400 text-center mb-12 max-w-md">
         Stress-test policy before it hits the real world.

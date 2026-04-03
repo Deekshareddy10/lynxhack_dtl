@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "urban-backend"
+name = "civiclens-backend"
 version = "0.1.0"
-description = "URBAN policy simulation backend — FastAPI + LangGraph + ChromaDB"
+description = "CivicLens policy simulation backend — FastAPI + LangGraph + ChromaDB"
 authors = ["Deeksha Reddy Patlolla"]
 readme = "README.md"
 

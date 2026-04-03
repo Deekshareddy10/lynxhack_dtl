@@ -43,7 +43,7 @@ export default function SimulatePage() {
   const [tractData, setTractData] = useState<TractImpact[] | null>(null);
 
   useEffect(() => {
-    const raw = localStorage.getItem('urban_result');
+    const raw = localStorage.getItem('civiclens_result');
     if (!raw) {
       router.push('/');
       return;
@@ -78,7 +78,7 @@ export default function SimulatePage() {
     <div className="min-h-screen bg-slate-950 flex flex-col">
       {/* Top bar */}
       <header className="border-b border-slate-800 px-6 py-3 flex items-center gap-4">
-        <span className="text-amber-400 font-black text-xl tracking-tighter">URBAN</span>
+        <span className="text-amber-400 font-black text-xl tracking-tighter">CivicLens</span>
         <div className="flex-1 text-slate-300 text-sm truncate">
           <span className="text-slate-500 mr-2">Policy:</span>
           {result.policy_text.slice(0, 100)}{result.policy_text.length > 100 ? '...' : ''}

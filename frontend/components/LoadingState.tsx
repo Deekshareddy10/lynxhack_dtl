@@ -25,7 +25,7 @@ export default function LoadingState() {
     <div className="fixed inset-0 z-50 bg-slate-950/95 flex flex-col items-center justify-center gap-8">
       {/* Pulsing logo */}
       <div className="text-5xl font-black tracking-tighter text-amber-400 animate-pulse">
-        URBAN
+        CivicLens
       </div>
 
       {/* Spinner */}

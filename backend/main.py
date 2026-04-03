@@ -1,5 +1,5 @@
 """
-URBAN — FastAPI application entry point.
+CivicLens — FastAPI application entry point.
 
 Start the server with:
     uvicorn main:app --reload --port 8000
@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.routes import health, simulate
 
 app = FastAPI(
-    title="URBAN Policy Simulation API",
+    title="CivicLens Policy Simulation API",
     description="Stress-test government policy before it hits the real world.",
     version="0.1.0",
 )
