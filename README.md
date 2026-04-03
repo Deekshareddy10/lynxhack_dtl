@@ -43,3 +43,9 @@ npm run dev
 ```
 
 Open http://localhost:3000
+
+
+
+## © 2026 Deeksha Reddy Patlolla, Tejaswi Baggam, Soundarya Lahari Singaraju
+
+All rights reserved.
