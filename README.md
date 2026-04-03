@@ -2,7 +2,7 @@
 
 > Stress-test policy before it hits the real world.
 
-URBAN lets policymakers upload any policy, pulls live economic and demographic data, runs three specialised AI agents (Economist, Urban Planner, Equity Analyst), and renders the projected impact on an interactive 3D Mapbox map.
+CivicLens lets policymakers upload any policy, pulls live economic and demographic data, runs three specialised AI agents (Economist, Urban Planner, Equity Analyst), and renders the projected impact on an interactive 3D Mapbox map.
 
 ---
 
